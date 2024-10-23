@@ -1,0 +1,27 @@
+# Makefile
+LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt
+OBJ_DIR=target
+
+${OBJ_DIR}/Program: ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o
+	g++ ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o -o ${OBJ_DIR}/Program $(LIBS)
+
+clean:
+	rm ${OBJ_DIR} -rf
+
+${OBJ_DIR}/Program.o: Program.cpp
+	mkdir -p ${OBJ_DIR}
+	g++ -c Program.cpp -o ${OBJ_DIR}/Program.o
+
+${OBJ_DIR}/Ball.o: Ball.cpp
+	mkdir -p ${OBJ_DIR}
+	g++ -c Ball.cpp -o ${OBJ_DIR}/Ball.o
+
+${OBJ_DIR}/Paddle.o: Paddle.cpp
+	mkdir -p ${OBJ_DIR}
+	g++ -c Paddle.cpp -o ${OBJ_DIR}/Paddle.o
+
+run: ${OBJ_DIR}/Program
+	${OBJ_DIR}/Program
+
+PHONY: clean run
+
