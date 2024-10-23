@@ -26,7 +26,7 @@ INCLUDES	:=
 #---------------------------------------------------------------------------------
 
 CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
-CXXFLAGS	=	$(CFLAGS)
+CXXFLAGS	=	$(CFLAGS) -DPLATFORM_WII
 
 LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 

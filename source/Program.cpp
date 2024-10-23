@@ -14,7 +14,6 @@
 
 void initilize() {
   #ifdef PLATFORM_WII
-
   GRRLIB_Init();
   WPAD_Init();
   #else
@@ -63,7 +62,7 @@ int main() {
     GRRLIB_FillScreen(RGBA(0, 0, 0, 255));
     #else
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground(BLACK);
     #endif
 
     for (int i = 0; i < 2; i++) {

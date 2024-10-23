@@ -1,27 +1,30 @@
 # Makefile
 LIBS = -lraylib -lGL -lm -lpthread -ldl -lrt
-OBJ_DIR=target
+OBJ_DIR=build-desktop
+SRC_DIR=source
+NAME=wiipong
 
-${OBJ_DIR}/Program: ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o
-	g++ ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o -o ${OBJ_DIR}/Program $(LIBS)
+./${NAME}: ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o
+	g++ ${OBJ_DIR}/Program.o ${OBJ_DIR}/Ball.o ${OBJ_DIR}/Paddle.o -o ./${NAME} $(LIBS)
 
 clean:
 	rm ${OBJ_DIR} -rf
+	rm ${NAME}
 
-${OBJ_DIR}/Program.o: Program.cpp
+${OBJ_DIR}/Program.o: ${SRC_DIR}/Program.cpp
 	mkdir -p ${OBJ_DIR}
-	g++ -c Program.cpp -o ${OBJ_DIR}/Program.o
+	g++ -c ${SRC_DIR}/Program.cpp -o ${OBJ_DIR}/Program.o
 
-${OBJ_DIR}/Ball.o: Ball.cpp
+${OBJ_DIR}/Ball.o: ${SRC_DIR}/Ball.cpp
 	mkdir -p ${OBJ_DIR}
-	g++ -c Ball.cpp -o ${OBJ_DIR}/Ball.o
+	g++ -c ${SRC_DIR}/Ball.cpp -o ${OBJ_DIR}/Ball.o
 
-${OBJ_DIR}/Paddle.o: Paddle.cpp
+${OBJ_DIR}/Paddle.o: ${SRC_DIR}/Paddle.cpp
 	mkdir -p ${OBJ_DIR}
-	g++ -c Paddle.cpp -o ${OBJ_DIR}/Paddle.o
+	g++ -c ${SRC_DIR}/Paddle.cpp -o ${OBJ_DIR}/Paddle.o
 
-run: ${OBJ_DIR}/Program
-	${OBJ_DIR}/Program
+run: ./${NAME}
+	./${NAME}
 
 PHONY: clean run
 
