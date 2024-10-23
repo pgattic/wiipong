@@ -1,12 +1,12 @@
 // Paddle.cpp
-#define PLATFORM_WII
+/*#define PLATFORM_WII*/
 #include "Constants.h"
 #ifdef PLATFORM_WII
 // Wii-specific includes
-#include <gccore.h>
 #include <wiiuse/wpad.h>
-#include <ogc/lwp_watchdog.h> // For sleep
-#include "WiiDrawFunctions.h"
+#include <grrlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #else
 #include <algorithm>
 #include <raylib.h>
@@ -85,8 +85,7 @@ class Paddle {
 
   void Render() const {
     #ifdef PLATFORM_WII
-    WiiDrawRectangle(x - thickness/2, y - size/2, thickness, size, (GXColor){0, 0, 255, 255});
-    /*DrawText(x, 20, TextFormat("%d", score));*/
+    GRRLIB_Rectangle(x - thickness/2, y - size/2, thickness, size, RGBA(0, 0, 255, 255), 1);
     printf("\x1b[%d;%dH%d", (int)(20 / 8), (int)(x / 8), score);
     #else
     DrawRectangle(x - thickness/2, y - size/2, thickness, size, BLUE);

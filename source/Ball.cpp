@@ -4,10 +4,7 @@
 #include "Paddle.cpp"
 #ifdef PLATFORM_WII
 // Wii-specific includes
-#include <gccore.h>
-#include <wiiuse/wpad.h>
-#include <ogc/lwp_watchdog.h> // For sleep
-#include "WiiDrawFunctions.h"
+#include <grrlib.h>
 #else
 #include "raylib.h"
 #endif
@@ -53,7 +50,7 @@ class Ball {
 
   void Render() const {
     #ifdef PLATFORM_WII
-    WiiDrawCircle(x, y, 10, (GXColor){0, 255, 0, 255}, 32);
+    GRRLIB_Circle(x, y, 10, RGBA(0, 255, 0, 255), 1);
     #else
     DrawCircle(x, y, 10, GREEN);
     #endif

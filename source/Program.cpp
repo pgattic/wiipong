@@ -2,10 +2,8 @@
 /*#define PLATFORM_WII*/
 #ifdef PLATFORM_WII
 // Wii-specific includes
-#include <gccore.h>
 #include <wiiuse/wpad.h>
-#include <ogc/lwp_watchdog.h> // For sleep
-#include <ogc/video.h>
+#include <grrlib.h>
 #else
 #include "raylib.h"
 #endif
@@ -14,25 +12,10 @@
 #include "Ball.cpp"
 #include "Paddle.cpp"
 
-#ifdef PLATFORM_WII
-GXRModeObj	*rmode;
-static void	*framebuffer;
-static vu8	readyForCopy;
-#endif
-
 void initilize() {
   #ifdef PLATFORM_WII
-  VIDEO_Init();
-  rmode = VIDEO_GetPreferredMode(NULL);
-  framebuffer = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-  console_init(framebuffer, 20, 20, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * 2);
-  VIDEO_Configure(rmode);
-  VIDEO_SetNextFramebuffer(framebuffer);
-  VIDEO_SetBlack(FALSE);
-  VIDEO_Flush();
-  VIDEO_WaitVSync();
-  if (rmode->viTVMode & VI_NON_INTERLACE) VIDEO_WaitVSync();
 
+  GRRLIB_Init();
   WPAD_Init();
   #else
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Super Cool Pong Game");
@@ -77,7 +60,7 @@ int main() {
     WPAD_ScanPads();
     u32 pressed = WPAD_ButtonsDown(0);
     if (pressed & WPAD_BUTTON_HOME) break; // Exit on HOME button
-    VIDEO_ClearFrameBuffer(rmode, framebuffer, COLOR_BLACK); // Clear the screen
+    GRRLIB_FillScreen(RGBA(0, 0, 0, 255));
     #else
     BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -92,14 +75,16 @@ int main() {
 
     /*   END DRAWING   */
     #ifdef PLATFORM_WII
-    VIDEO_Flush();
+    GRRLIB_Render();
     VIDEO_WaitVSync();
     #else
     EndDrawing();
     #endif
   }
 
-  #ifndef PLATFORM_WII
+  #ifdef PLATFORM_WII
+  GRRLIB_Exit();
+  #else
   // De-Initialization
   CloseWindow(); // Close window and OpenGL context
   #endif
